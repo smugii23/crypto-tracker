@@ -1,4 +1,4 @@
-from api import find_price
+from api import *
 
 
 def get_crypto_choice():
@@ -6,7 +6,8 @@ def get_crypto_choice():
 
 def main():
     choice = get_crypto_choice()
-    data = find_price(choice)
-    
+    id = symbol_to_id(choice)
+    data = find_price(id)
+
 
 main()
