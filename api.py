@@ -24,9 +24,9 @@ def symbol_to_id(choice):
     except (ConnectionError, Timeout, TooManyRedirects) as e:
         print(e)
 
-def find_price(choice):
+def find_price(id):
     parameters = {
-     'symbol': choice
+     'id': id
     }
     headers = {
     'Accepts': 'application/json',
@@ -39,6 +39,9 @@ def find_price(choice):
     try:
         response = session.get(url + "/v2/cryptocurrency/quotes/latest", params=parameters)
         data = json.loads(response.text)
-        return(data)
+        if data['data']:
+            return data['data'][str(id)]['quote']['USD']['price']
+        else:
+            raise Exception("Price not found")
     except (ConnectionError, Timeout, TooManyRedirects) as e:
         print(e)

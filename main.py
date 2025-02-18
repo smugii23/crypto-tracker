@@ -8,6 +8,7 @@ def main():
     choice = get_crypto_choice()
     id = symbol_to_id(choice)
     data = find_price(id)
+    print(data)
 
 
 main()
