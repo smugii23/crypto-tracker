@@ -68,7 +68,7 @@ def percent_change(id, timeframe):
         response = session.get(url + "/v2/cryptocurrency/quotes/latest", params=parameters)
         data = json.loads(response.text)
         if data['data']:
-            return data['data'][str(id)]['quote']['USD'][f'percent_change_{timeframe}']
+            return data['data'][str(id)]['quote']['USD'][f'percent_change_{timeframe.value}']
         else:
             raise Exception("Price not found")
     except (ConnectionError, Timeout, TooManyRedirects) as e:
