@@ -1,7 +1,7 @@
 from api import *
 from utils import format_price, format_percent
 from models import Timeframe
-from reddit import reddit
+from info import reddit, get_news
 
 def get_crypto_choice():
     return input("Enter cryptocurrency symbol: ").upper() 
@@ -27,7 +27,7 @@ def main():
     print(f"\n{choice} Status:")
     print(f"Price: {format_price(price)}")
     print(f"{timeframe.value} Change: {format_percent(change)}")
-    print(reddit.read_only)
+    print(get_news(choice))
 
 if __name__ == "__main__":
     main()
