@@ -4,6 +4,10 @@ from dotenv import load_dotenv
 import os
 import json
 import praw
+import nltk
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from nltk.tokenize import sent_tokenize
+
 
 
 load_dotenv()
@@ -39,3 +43,21 @@ def get_news(choice):
         return data
     except (ConnectionError, Timeout, TooManyRedirects) as e:
         print(e)
+
+
+def get_score(data):
+    try:
+        nltk.data.find('tokenizers/punkt')
+    except LookupError:
+        nltk.download('punkt')
+        nltk.download('vader_lexicon')
+        nltk.download('stopwords')
+    sia = SentimentIntensityAnalyzer()
+    score = 0
+    count = 0
+    contents = [article['content'] for article in data['articles']]
+    for content in contents:
+        polarity_score = sia.polarity_scores(content)
+        score += polarity_score['compound']
+        count += 1
+    return score / count

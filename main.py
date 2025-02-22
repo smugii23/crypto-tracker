@@ -1,7 +1,7 @@
 from api import *
 from utils import format_price, format_percent
 from models import Timeframe
-from info import reddit, get_news
+from info import reddit, get_news, get_score
 
 def get_crypto_choice():
     return input("Enter cryptocurrency symbol: ").upper() 
@@ -23,11 +23,13 @@ def main():
 
     price = find_price(id)
     change = percent_change(id, timeframe)
+    data = get_news(choice)
+    polarity_score = get_score(data)
     
     print(f"\n{choice} Status:")
     print(f"Price: {format_price(price)}")
     print(f"{timeframe.value} Change: {format_percent(change)}")
-    print(get_news(choice))
+    print(polarity_score)
 
 if __name__ == "__main__":
     main()
