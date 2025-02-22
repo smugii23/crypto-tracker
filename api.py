@@ -8,7 +8,7 @@ load_dotenv()
 API_KEY = os.getenv('CMC_API_KEY')
 BASE_URL = "https://pro-api.coinmarketcap.com"
 
-def symbol_to_id(choice):
+def symbol_to_id_name(choice):
     parameters = {
         'symbol': choice
     }
@@ -23,7 +23,7 @@ def symbol_to_id(choice):
         response = session.get(url + "/v1/cryptocurrency/map", params=parameters)
         data = json.loads(response.text)
         if data['data']:
-            return data['data'][0]['id']
+            return (data['data'][0]['id'], data['data'][0]['name'])
         else:
             raise Exception("No coin found")
     except (ConnectionError, Timeout, TooManyRedirects) as e:

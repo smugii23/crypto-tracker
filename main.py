@@ -19,16 +19,17 @@ def get_timeframe():
 def main():
     choice = get_crypto_choice()
     timeframe = get_timeframe()
-    id = symbol_to_id(choice)
+    id = symbol_to_id_name(choice)
 
-    price = find_price(id)
-    change = percent_change(id, timeframe)
-    data = get_news(choice)
+    price = find_price(id[0])
+    change = percent_change(id[0], timeframe)
+    data = get_news(id)
     polarity_score = get_score(data)
     
     print(f"\n{choice} Status:")
     print(f"Price: {format_price(price)}")
     print(f"{timeframe.value} Change: {format_percent(change)}")
+    print(data)
     print(polarity_score)
 
 if __name__ == "__main__":

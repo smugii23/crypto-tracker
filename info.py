@@ -6,7 +6,7 @@ import json
 import praw
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-from nltk.tokenize import sent_tokenize
+
 
 
 
@@ -38,7 +38,7 @@ def get_news(choice):
     session.headers.update(headers)
     url = NEWS_URL
     try:
-        response = session.get(url + f"?q={choice}%20OR%20bitcoin&apikey={NEWS_API}", params=parameters)
+        response = session.get(url + f"?q={choice[1]}&apikey={NEWS_API}", params=parameters)
         data = json.loads(response.text)
         return data
     except (ConnectionError, Timeout, TooManyRedirects) as e:
