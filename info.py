@@ -1,4 +1,4 @@
-from requests import Request, Session
+from requests import Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 from dotenv import load_dotenv
 import os
@@ -6,9 +6,6 @@ import json
 import praw
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-
-
-
 
 load_dotenv()
 CLIENT_ID = os.getenv('REDDIT_ID')
@@ -26,10 +23,7 @@ crypto_subreddit = reddit.subreddit("cryptocurrency")
 
 
 
-def get_news(choice):
-    parameters = {
-        'symbol': choice
-    }
+def get_news(choice, timeframe):
     headers = {
     'Accepts': 'application/json',
     'X-CMC_PRO_API_KEY': NEWS_API,
@@ -38,7 +32,7 @@ def get_news(choice):
     session.headers.update(headers)
     url = NEWS_URL
     try:
-        response = session.get(url + f"?q={choice[1]}&apikey={NEWS_API}", params=parameters)
+        response = session.get(url + f"?q={choice[1]}&from={timeframe[0]}&to{timeframe[1]}&apikey={NEWS_API}")
         data = json.loads(response.text)
         return data
     except (ConnectionError, Timeout, TooManyRedirects) as e:
