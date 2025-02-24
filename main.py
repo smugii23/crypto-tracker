@@ -3,6 +3,11 @@ from utils import format_price, format_percent
 from models import Timeframe
 from info import reddit, get_news, get_score
 from datetime import datetime
+import textwrap
+
+def clear_screen():
+    """Clears the terminal screen."""
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def get_crypto_choice():
     return input("Enter cryptocurrency symbol: ").upper() 
@@ -35,30 +40,49 @@ def get_news_timeframe():
 
 def main():
     while True:
-        selection = input("Select an option:\n1. Find the current price of a coin\n2. Find the price change of a coin\n3. Find the polarity score of a coin\nEnter 'q' to quit.\n")
+        clear_screen()
+        menu = textwrap.dedent("""
+            ================================
+                     CRYPTO TRACKER
+            ================================
+            1. Find the current price of a coin
+            2. Find the price change of a coin
+            3. Find the polarity score of a coin
+            --------------------------------
+            Enter 'q' to quit.
+        """)
+        print(menu)
+
+        selection = input("Your choice: ").strip().lower()
+
         if selection == '1':
             choice = get_crypto_choice()
-            id = symbol_to_id_name(choice)
-            price = find_price(id[0])
-            print(f"Price: {format_price(price)}\n")
+            crypto_id = symbol_to_id_name(choice)[0]
+            price = find_price(crypto_id)
+            print(f"\n🔹 Price: {format_price(price)}")
+
         elif selection == '2':
             choice = get_crypto_choice()
-            id = symbol_to_id_name(choice)
+            crypto_id = symbol_to_id_name(choice)[0]
             timeframe = get_timeframe()
-            change = percent_change(id[0], timeframe)
-            print(f"{timeframe.value} Change: {format_percent(change)}\n")
+            change = percent_change(crypto_id, timeframe)
+            print(f"\n📉 {timeframe.value} Change: {format_percent(change)}")
+
         elif selection == '3':
             choice = get_crypto_choice()
-            id = symbol_to_id_name(choice)
             news_timeframe = get_news_timeframe()
-            data = get_news(id, str(news_timeframe))
+            data = get_news(choice, str(news_timeframe))
             polarity_score = get_score(data)
-            print(f"Polarity score: {polarity_score}\n")
-        elif selection.lower() == 'q':
-            print("Exiting program.")
+            print(f"\n📰 Polarity Score: {polarity_score}")
+
+        elif selection == 'q':
+            print("\n👋 Exiting program.")
             break
+
         else:
-            print("Invalid selection.\n")
+            print("\n❌ Invalid selection. Please try again.")
+
+        input("\nPress Enter to continue...")
 
 if __name__ == "__main__":
     main()
