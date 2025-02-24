@@ -34,20 +34,31 @@ def get_news_timeframe():
             return (start, end)
 
 def main():
-    choice = get_crypto_choice()
-    timeframe = get_timeframe()
-    news_timeframe = get_news_timeframe()
-
-    id = symbol_to_id_name(choice)
-    price = find_price(id[0])
-    change = percent_change(id[0], timeframe)
-    data = get_news(id, str(news_timeframe))
-    polarity_score = get_score(data)
-    
-    print(f"\n{choice} Status:")
-    print(f"Price: {format_price(price)}")
-    print(f"{timeframe.value} Change: {format_percent(change)}")
-    print(f"Polarity score: {polarity_score}")
+    while True:
+        selection = input("Select an option:\n1. Find the current price of a coin\n2. Find the price change of a coin\n3. Find the polarity score of a coin\nEnter 'q' to quit.\n")
+        if selection == '1':
+            choice = get_crypto_choice()
+            id = symbol_to_id_name(choice)
+            price = find_price(id[0])
+            print(f"Price: {format_price(price)}\n")
+        elif selection == '2':
+            choice = get_crypto_choice()
+            id = symbol_to_id_name(choice)
+            timeframe = get_timeframe()
+            change = percent_change(id[0], timeframe)
+            print(f"{timeframe.value} Change: {format_percent(change)}\n")
+        elif selection == '3':
+            choice = get_crypto_choice()
+            id = symbol_to_id_name(choice)
+            news_timeframe = get_news_timeframe()
+            data = get_news(id, str(news_timeframe))
+            polarity_score = get_score(data)
+            print(f"Polarity score: {polarity_score}\n")
+        elif selection.lower() == 'q':
+            print("Exiting program.")
+            break
+        else:
+            print("Invalid selection.\n")
 
 if __name__ == "__main__":
     main()
