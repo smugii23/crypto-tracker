@@ -54,4 +54,4 @@ def get_score(data):
         polarity_score = sia.polarity_scores(content)
         score += polarity_score['compound']
         count += 1
-    return score / count
+    return score / count if count > 0 else 0.0

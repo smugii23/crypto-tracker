@@ -1,7 +1,7 @@
 from api import *
 from utils import format_price, format_percent
 from models import Timeframe
-from info import reddit, get_news, get_score
+from info import get_news, get_score
 from datetime import datetime
 import textwrap
 
