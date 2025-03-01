@@ -3,6 +3,7 @@ from utils import format_price, format_percent
 from models import Timeframe
 from info import get_news, get_score
 from datetime import datetime
+from portfolio import add_portfolio, load_portfolio, save_portfolio
 import textwrap
 
 def clear_screen():
@@ -39,6 +40,7 @@ def get_news_timeframe():
             return (start, end)
 
 def main():
+    portfolio = load_portfolio()
     while True:
         clear_screen()
         menu = textwrap.dedent("""
@@ -74,6 +76,9 @@ def main():
             data = get_news(choice, str(news_timeframe))
             polarity_score = get_score(data)
             print(f"\n📰 Polarity Score: {polarity_score}")
+        
+        elif selection == '4':
+            add_portfolio(portfolio)
 
         elif selection == 'q':
             print("\n👋 Exiting program.")
