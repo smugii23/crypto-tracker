@@ -39,13 +39,25 @@ def get_news_timeframe():
         if start < end:
             return (start, end)
         
-def display_portfolio(filename):
-    if filename == {}:
+def display_portfolio(portfolio):
+    if not portfolio:
         print("Your portfolio is empty.")
     else:
-        print("Your portfolio:\n")
-        for symbol, amount in filename.items():
+        total_value = 0
+        print("\n📜 Your Portfolio:\n")
+        for symbol, amount in portfolio.items():
             print(f"- {symbol}: {amount}")
+        print("\n💰 Portfolio Value in USD:\n")
+        for symbol, amount in portfolio.items():
+            id = symbol_to_id_name(symbol)[0]
+            price = find_price(id)
+            value = price * float(amount)
+            total_value += value
+            formatted_price = format_price(price)
+            formatted_value = format_price(value)
+            print(f"- {symbol}: {formatted_value} USD (Price: {formatted_price} USD)")
+
+        print(f"\n💵 Total Portfolio Value: {format_price(total_value)} USD")
 
 
 def main():
@@ -53,13 +65,16 @@ def main():
     while True:
         clear_screen()
         menu = textwrap.dedent("""
-            ================================
-                     CRYPTO TRACKER
-            ================================
+            ===================================
+                      CRYPTO TRACKER
+            ===================================
             1. Find the current price of a coin
             2. Find the price change of a coin
             3. Find the polarity score of a coin
-            --------------------------------
+            4. Add a coin to your portfolio
+            5. Display your portfolio
+            6. Save your portfolio
+            -------------------------------------
             Enter 'q' to quit.
         """)
         print(menu)
@@ -92,6 +107,9 @@ def main():
         elif selection == '5':
             clear_screen()
             display_portfolio(portfolio)
+        
+        elif selection == '6':
+            save_portfolio(portfolio)
 
         elif selection == 'q':
             print("\n👋 Exiting program.")
