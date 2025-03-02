@@ -38,6 +38,15 @@ def get_news_timeframe():
             continue
         if start < end:
             return (start, end)
+        
+def display_portfolio(filename):
+    if filename == {}:
+        print("Your portfolio is empty.")
+    else:
+        print("Your portfolio:\n")
+        for symbol, amount in filename.items():
+            print(f"- {symbol}: {amount}")
+
 
 def main():
     portfolio = load_portfolio()
@@ -79,6 +88,10 @@ def main():
         
         elif selection == '4':
             add_portfolio(portfolio)
+        
+        elif selection == '5':
+            clear_screen()
+            display_portfolio(portfolio)
 
         elif selection == 'q':
             print("\n👋 Exiting program.")

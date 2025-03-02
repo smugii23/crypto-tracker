@@ -1,7 +1,7 @@
-from main import get_crypto_choice
 import json
 
 def add_portfolio(portfolio):
+    from main import get_crypto_choice
     symbol = get_crypto_choice()
     amount = input(f"Enter the amount of {symbol} you own: ")
     if symbol in portfolio:
