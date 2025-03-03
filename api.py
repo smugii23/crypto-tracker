@@ -21,12 +21,14 @@ def symbol_to_id_name(choice):
     try:
         response = session.get(url, params=parameters)
         data = response.json() 
+        # if there is an error, handle it
         if 'status' in data and data['status']['error_code'] != 0:
             print(f"❌ API Error: {data['status']['error_message']}")
             return None  
+        # if data is successfully returned, return the id and name
         if 'data' in data and data['data']:
             return (data['data'][0]['id'], data['data'][0]['name'])
-
+        # handle the case where no coin is found
         print("❌ No coin found.")
         return None
 
