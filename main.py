@@ -3,7 +3,7 @@ from utils import format_price, format_percent
 from models import Timeframe
 from info import get_news, get_score
 from datetime import datetime
-from portfolio import add_portfolio, load_portfolio, save_portfolio
+from portfolio import add_portfolio, load_portfolio, save_portfolio, subtract_portfolio
 import textwrap
 
 def clear_screen():
@@ -65,15 +65,16 @@ def main():
     while True:
         clear_screen()
         menu = textwrap.dedent("""
-            ===================================
+            =====================================
                       CRYPTO TRACKER
-            ===================================
+            =====================================
             1. Find the current price of a coin
             2. Find the price change of a coin
             3. Find the polarity score of a coin
             4. Add a coin to your portfolio
-            5. Display your portfolio
-            6. Save your portfolio
+            5. Subtract a coin from your portfolio
+            6. Display your portfolio
+            7. Save your portfolio
             -------------------------------------
             Enter 'q' to quit.
         """)
@@ -105,10 +106,13 @@ def main():
             add_portfolio(portfolio)
         
         elif selection == '5':
+            subtract_portfolio(portfolio)
+        
+        elif selection == '6':
             clear_screen()
             display_portfolio(portfolio)
         
-        elif selection == '6':
+        elif selection == '7':
             save_portfolio(portfolio)
 
         elif selection == 'q':

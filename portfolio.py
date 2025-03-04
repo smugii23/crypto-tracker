@@ -25,19 +25,33 @@ def add_portfolio(portfolio):
         break
 
 
-def delete_portfolio(portfolio):
+def subtract_portfolio(portfolio):
     if not portfolio:
         print("Your portfolio is empty.")
         return
     print("📜 Your portfolio:")
     for symbol, amount in portfolio.items():
         print(f"- {symbol}: {amount}")
-    delete_symbol = input("Enter the symbol of the coin to delete from your portfolio: ")
+    delete_symbol = input("Enter the symbol of the coin to subtract from your portfolio: ")
     if delete_symbol in portfolio:
         try:
             subtract_amount = float(input(f"Enter the amount of {delete_symbol} to subtract: "))
-        except:
-            pass
+            if subtract_amount <= 0:
+                print("❌ Amount must be greater than 0.")
+                return
+            if subtract_amount > portfolio[delete_symbol]:
+                print("❌ You cannot subtract more than you have in your portfolio.")
+                return
+            portfolio[delete_symbol] -= subtract_amount
+            if portfolio[delete_symbol] == 0:
+                del portfolio[delete_symbol]
+                print(f"{delete_symbol} has been deleted from your portfolio.")
+            else:
+                print(f"{subtract_amount} {delete_symbol} has been subtracted from your portfolio.")
+        except ValueError:
+            print(f"❌ Invalid amount.")
+    else:
+        print(f"❌ {delete_symbol} not found in your portfolio.")
     
 
 
