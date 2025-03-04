@@ -25,6 +25,22 @@ def add_portfolio(portfolio):
         break
 
 
+def delete_portfolio(portfolio):
+    if not portfolio:
+        print("Your portfolio is empty.")
+        return
+    print("📜 Your portfolio:")
+    for symbol, amount in portfolio.items():
+        print(f"- {symbol}: {amount}")
+    delete_symbol = input("Enter the symbol of the coin to delete from your portfolio: ")
+    if delete_symbol in portfolio:
+        try:
+            subtract_amount = float(input(f"Enter the amount of {delete_symbol} to subtract: "))
+        except:
+            pass
+    
+
+
 def save_portfolio(portfolio, filename="portfolio.json"):
     with open(filename, 'w') as file:
         json.dump(portfolio, file)
