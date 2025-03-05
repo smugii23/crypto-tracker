@@ -7,7 +7,7 @@ from portfolio import add_portfolio, load_portfolio, save_portfolio, subtract_po
 import textwrap
 
 def clear_screen():
-    """Clears the terminal screen."""
+    # clears the terminal screen
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def get_crypto_choice():
@@ -26,13 +26,13 @@ def get_news_timeframe():
     while True:
         start = input("Enter date to search from (eg. 2024-02-03): ")
         try:
-            start = datetime.strptime(start, "%Y-%m-%d")
+            datetime.strptime(start, "%Y-%m-%d")
         except:
             print("Invalid format.")
             continue
         end = input("Enter date to search to (eg. 2025-02-03): ")
         try:
-            end = datetime.strptime(end, "%Y-%m-%d")
+            datetime.strptime(end, "%Y-%m-%d")
         except:
             print("Invalid format.")
             continue
@@ -55,13 +55,14 @@ def display_portfolio(portfolio):
             total_value += value
             formatted_price = format_price(price)
             formatted_value = format_price(value)
-            print(f"- {symbol}: {formatted_value} USD (Price: {formatted_price} USD)")
+            print(f"- {symbol}: {formatted_value} USD (Price: {formatted_price} USD per coin)")
 
         print(f"\n💵 Total Portfolio Value: {format_price(total_value)} USD")
 
 
 def main():
     portfolio = load_portfolio()
+    price_check = {'BTC': 87500}
     while True:
         clear_screen()
         menu = textwrap.dedent("""
@@ -97,8 +98,9 @@ def main():
 
         elif selection == '3':
             choice = get_crypto_choice()
+            id = symbol_to_id_name(choice)
             news_timeframe = get_news_timeframe()
-            data = get_news(choice, str(news_timeframe))
+            data = get_news(id, str(news_timeframe))
             polarity_score = get_score(data)
             print(f"\n📰 Polarity Score: {polarity_score}")
         
@@ -114,6 +116,9 @@ def main():
         
         elif selection == '7':
             save_portfolio(portfolio)
+        
+        elif selection == '8':
+            alert(price_check)
 
         elif selection == 'q':
             print("\n👋 Exiting program.")

@@ -1,6 +1,7 @@
 from requests import    Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 from dotenv import load_dotenv
+import time
 import os
 import json
 
@@ -82,3 +83,14 @@ def percent_change(id, timeframe):
             raise Exception("Price not found")
     except (ConnectionError, Timeout, TooManyRedirects) as e:
         print(e)
+
+def alert(price_check):
+    while True:
+        for symbol, price in price_check.items():
+            id = symbol_to_id_name(symbol)[0]
+            curr_price = find_price(id)
+            if curr_price >= price:
+                print(f"🚨 {symbol} has reached {price}! Current price: {curr_price}")
+                break
+        time.sleep(10)
+

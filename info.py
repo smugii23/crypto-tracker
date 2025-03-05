@@ -32,7 +32,7 @@ def get_news(choice, timeframe):
     session.headers.update(headers)
     url = NEWS_URL
     try:
-        response = session.get(url + f"?q={choice[1]}&from={timeframe[0]}&to{timeframe[1]}&apikey={NEWS_API}")
+        response = session.get(url + f"?q={choice[1]}&from={int(timeframe[0])}&to={int(timeframe[1])}&apikey={NEWS_API}")
         data = json.loads(response.text)
         return data
     except (ConnectionError, Timeout, TooManyRedirects) as e:
